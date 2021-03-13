@@ -46,7 +46,6 @@ function Edit(props) {
               </Form.Group>
 
               <Button
-                className="loginBtn"
                 variant="contained"
                 color="primary"
                 type="submit"
@@ -60,8 +59,9 @@ function Edit(props) {
         </div>
     )
 }
-
 const mapStateToProps = (state) => ({
-    data: state.addReducer.data,
+    data: state.editReducer.data,
+    error:state.editReducer.error,
+    loading:state.editReducer.loading
   });
 export default connect(mapStateToProps)(Edit)

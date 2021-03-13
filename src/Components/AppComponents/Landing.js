@@ -2,7 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Button } from "@material-ui/core";
 
-function Landing() {
+function Landing(props) {
     const history=useHistory();
     return (
         <div className="landing">

@@ -1,7 +1,7 @@
 import axios from "axios";
-export const FETCH_USERS_REQUEST = "FETCH_USERS_REQUEST";
-export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
-export const FETCH_USERS_FAILED = "FETCH_USERS_FAILED";
+export const LOGIN_USER_REQUEST = "LOGIN_USER_REQUEST";
+export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
+export const LOGIN_USER_FAILED = "FETCH_USERS_FAILED";
 export const FETCH_LIST_REQUEST = "FETCH_LIST_REQUEST";
 export const FETCH_LIST_SUCCESS = "FETCH_LIST_SUCCESS";
 export const FETCH_LIST_FAILED = "FETCH_LIST_FAILED";
@@ -18,20 +18,20 @@ export const DELETE_USER_REQUEST = "DELETE_USER_REQUEST";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
 export const DELETE_USER_FAILED = "DELETE_USER_FAILED";
 /////////......Users Response Actions.............../////////
-const fetchUsersRequest = (loading) => {
+const loginUserRequest = (loading) => {
   return {
-    type: FETCH_USERS_REQUEST,
+    type: LOGIN_USER_REQUEST,
   };
 };
-const fetchUsersSuccess = (users) => {
+const loginUserSuccess = (users) => {
   return {
-    type: FETCH_USERS_SUCCESS,
+    type: LOGIN_USER_SUCCESS,
     payload: users,
   };
 };
-const fetchUsersFailed = (error) => {
+const loginUserFailed = (error) => {
   return {
-    type: FETCH_USERS_FAILED,
+    type: LOGIN_USER_FAILED,
     payload: error,
   };
 };
@@ -50,12 +50,12 @@ export const loginUsers = (data, history) => (dispatch) => {
       response.token && history.push("/home");
       dispatch({
         payload: response,
-        type: FETCH_USERS_SUCCESS,
+        type: LOGIN_USER_SUCCESS,
       });
     })
     .catch((err) => {
       dispatch({
-        type: FETCH_USERS_FAILED,
+        type: LOGIN_USER_FAILED,
         payload: err,
       });
     });
@@ -155,21 +155,21 @@ const fetchUserFailed = (error) => {
   };
 };
 export const fetchUser = (id) => (dispatch) => {
-  //   fetch(`https://reqres.in/api/users/${id}`)
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //         console.log(response,"res details")
-  //   dispatch({
-  //     payload: response,
-  //     type: FETCH_USERS_SUCCESS,
-  //   });
-  // })
-  // .catch((err) => {
-  //   dispatch({
-  //     type: FETCH_USERS_FAILED,
-  //     payload: err,
-  //   });
-  // });
+  console.log({id})
+  fetch(`https://reqres.in/api/unknown/${id}`)
+      .then((response) => response.json())
+      .then((response) => {
+    dispatch({
+      payload: response.data,
+      type: FETCH_USER_SUCCESS,
+    });
+  })
+  .catch((err) => {
+    dispatch({
+      type: FETCH_USER_FAILED,
+      payload: err,
+    });
+  });
 };
 
 ///////////.........EDITUser Actions...............////////////////
@@ -191,10 +191,9 @@ const EDITUserFailed = (error) => {
   };
 };
 export const editUser = (values, id, history) => (dispatch) => {
-  console.log(values, "history");
   axios
     .post(`https://reqres.in/api/users/${id}`, {
-      method: "post",
+      method: "update",
       headers: {
         "Content-Type": "application/json",
       },
@@ -241,6 +240,7 @@ export const deleteUser = (id, history) => (dispatch) => {
       method: "delete",
     })
     .then((response) => {
+      response.data.id && history.push("/home");
       dispatch({
         payload: response.data,
         type: DELETE_USER_SUCCESS,

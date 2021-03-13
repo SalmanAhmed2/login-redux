@@ -43,7 +43,6 @@ function AddUser(props) {
               </Form.Group>
 
               <Button
-                className="loginBtn"
                 variant="contained"
                 color="primary"
                 type="submit"
