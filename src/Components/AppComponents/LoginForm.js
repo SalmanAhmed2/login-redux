@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Formik } from "formik";
 import { Form } from "react-bootstrap";
+import * as ReactBootStrap from "react-bootstrap";
 import { connect } from "react-redux";
 import { loginUsers } from "../actions/actions";
 function LoginForm(props) {
+  const [isLoading, setLoading] = useState(props.loading);
   const history = useHistory();
+  console.log();
   return (
     <div className="App">
       <h1>Login Page</h1>
@@ -25,6 +28,7 @@ function LoginForm(props) {
           return errors;
         }}
         onSubmit={(values) => {
+          setLoading(true);
           props.dispatch(loginUsers(values, history));
         }}
       >
@@ -64,14 +68,17 @@ function LoginForm(props) {
             >
               Login
               <AccountCircleIcon />
+              {isLoading && <ReactBootStrap.Spinner animation="border" />}
             </Button>
           </Form>
         )}
       </Formik>
+      <p className="warning">{props.users.error}</p>
     </div>
   );
 }
 const mapStateToProps = (state) => ({
   users: state.loginReducer.users,
+  loading: state.loginReducer.loading,
 });
 export default connect(mapStateToProps)(LoginForm);

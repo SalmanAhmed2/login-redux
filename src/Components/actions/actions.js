@@ -17,24 +17,7 @@ export const EDIT_USER_FAILED = "EDIT_USER_FAILED";
 export const DELETE_USER_REQUEST = "DELETE_USER_REQUEST";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
 export const DELETE_USER_FAILED = "DELETE_USER_FAILED";
-/////////......Users Response Actions.............../////////
-const loginUserRequest = (loading) => {
-  return {
-    type: LOGIN_USER_REQUEST,
-  };
-};
-const loginUserSuccess = (users) => {
-  return {
-    type: LOGIN_USER_SUCCESS,
-    payload: users,
-  };
-};
-const loginUserFailed = (error) => {
-  return {
-    type: LOGIN_USER_FAILED,
-    payload: error,
-  };
-};
+/////////......Users Response Actions.........../////////
 export const loginUsers = (data, history) => (dispatch) => {
   fetch("https://reqres.in/api/login", {
     method: "post",
@@ -61,23 +44,7 @@ export const loginUsers = (data, history) => (dispatch) => {
     });
 };
 ///////////.........List Actions...............////////////////
-const fetchListRequest = (loading) => {
-  return {
-    type: FETCH_LIST_REQUEST,
-  };
-};
-const fetchListSuccess = (list) => {
-  return {
-    type: FETCH_LIST_SUCCESS,
-    payload: list,
-  };
-};
-const fetchListFailed = (error) => {
-  return {
-    type: FETCH_LIST_FAILED,
-    payload: error,
-  };
-};
+
 export const fetchList = () => async (dispatch) => {
   try {
     const res = await axios.get("https://reqres.in/api/unknown");
@@ -94,23 +61,7 @@ export const fetchList = () => async (dispatch) => {
 };
 
 ///////////.........AddUser Actions...............////////////////
-const addUserRequest = (loading) => {
-  return {
-    type: ADD_USER_REQUEST,
-  };
-};
-const addUserSuccess = (list) => {
-  return {
-    type: ADD_USER_SUCCESS,
-    payload: list,
-  };
-};
-const addUserFailed = (error) => {
-  return {
-    type: ADD_USER_FAILED,
-    payload: error,
-  };
-};
+
 export const addUser = (data, history) => (dispatch) => {
   axios
     .post("https://reqres.in/api/users", {
@@ -123,7 +74,7 @@ export const addUser = (data, history) => (dispatch) => {
       }),
     })
     .then((response) => {
-      response.data.id && history.push("/home");
+      response.data && history.push("/home")
       dispatch({
         payload: response.data,
         type: ADD_USER_SUCCESS,
@@ -137,25 +88,8 @@ export const addUser = (data, history) => (dispatch) => {
     });
 };
 /////////......User Details Actions.............../////////
-const fetchUserRequest = (loading) => {
-  return {
-    type: FETCH_USER_REQUEST,
-  };
-};
-const fetchUserSuccess = (user) => {
-  return {
-    type: FETCH_USER_SUCCESS,
-    payload: user,
-  };
-};
-const fetchUserFailed = (error) => {
-  return {
-    type: FETCH_USER_FAILED,
-    payload: error,
-  };
-};
+
 export const fetchUser = (id) => (dispatch) => {
-  console.log({id})
   fetch(`https://reqres.in/api/unknown/${id}`)
       .then((response) => response.json())
       .then((response) => {
@@ -172,24 +106,8 @@ export const fetchUser = (id) => (dispatch) => {
   });
 };
 
-///////////.........EDITUser Actions...............////////////////
-const EDITUserRequest = (loading) => {
-  return {
-    type: EDIT_USER_REQUEST,
-  };
-};
-const EDITUserSuccess = (list) => {
-  return {
-    type: EDIT_USER_SUCCESS,
-    payload: list,
-  };
-};
-const EDITUserFailed = (error) => {
-  return {
-    type: EDIT_USER_FAILED,
-    payload: error,
-  };
-};
+// ///////////.........EDITUser Actions...............////////////////
+
 export const editUser = (values, id, history) => (dispatch) => {
   axios
     .post(`https://reqres.in/api/users/${id}`, {
@@ -217,23 +135,6 @@ export const editUser = (values, id, history) => (dispatch) => {
 };
 
 ///////////.........Delete User Actions...............////////////////
-const deleteUserRequest = (loading) => {
-  return {
-    type: DELETE_USER_REQUEST,
-  };
-};
-const deleteUserSuccess = (list) => {
-  return {
-    type: DELETE_USER_SUCCESS,
-    payload: list,
-  };
-};
-const deleteUserFailed = (error) => {
-  return {
-    type: DELETE_USER_FAILED,
-    payload: error,
-  };
-};
 export const deleteUser = (id, history) => (dispatch) => {
   axios
     .post(`https://reqres.in/api/users/${id}`, {
@@ -252,4 +153,4 @@ export const deleteUser = (id, history) => (dispatch) => {
         payload: err,
       });
     });
-};
+}

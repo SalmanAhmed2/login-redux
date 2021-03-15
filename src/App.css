@@ -1,67 +1,28 @@
 .App {
   display:flex;
-  text-align: center;
+  align-items: center;
   flex-direction:column;
   justify-content: center;
 }
-nav{
+.warning{
+  color: red;
+}
+.navbar-expand {
+  width: 100%;
   display:flex;
   align-items:center;
-  justify-content: space-between;
+  justify-content: space-between!important;
 }
-nav h1{
-  font-size:30px;
+table{
+  width: 60%!important;
 }
-input{
-  border: 0.5px solid grey;
-  width:400px;
-  height: 40px;
-  margin: 10px 0px;
-  border-radius: 10px;
-  font-size: 20px;
-}
-button{
-  width: 180px!important;
-  align-items: center;
-}
-
 .landing{
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
 }
-table{
-  margin-left: 22%;
-  width:50%;
-  display: flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-}
-tr{
-  display:flex;
-  flex-direction:row
-}
-tr th{
-  width:200px;
-  display:flex;
-  align-items:center;
-  justify-content: center;
-}
-td{
-  display:flex;
-  align-items:center;
-  justify-content: center;
-  width:200px;
-  flex-direction:row;
-}
+
 h2 span{
   color: blue;
-}
-.btns{
-  width:25%;
-  display:flex;
-  justify-content:space-between;
-  margin-left: 37%;
 }
