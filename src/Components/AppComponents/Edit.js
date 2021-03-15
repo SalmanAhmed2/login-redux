@@ -10,7 +10,7 @@ function Edit(props) {
     const location = useLocation();
     const history = useHistory();
     const id = useParams();
-    let item = location.state.item
+    const item = location.state.data;
     return (
         <div className="App">
             <h1>Edit Page</h1>
