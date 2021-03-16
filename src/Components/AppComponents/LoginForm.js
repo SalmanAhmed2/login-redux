@@ -10,7 +10,7 @@ import { loginUsers } from "../actions/actions";
 function LoginForm(props) {
   const [isLoading, setLoading] = useState(props.loading);
   const history = useHistory();
-  console.log();
+  console.log(props,"props");
   return (
     <div className="App">
       <h1>Login Page</h1>

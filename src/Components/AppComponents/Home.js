@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import * as ReactBootStrap from "react-bootstrap";
 import { connect, useDispatch } from "react-redux";
-import { fetchList, fetchUser } from "../actions/actions";
+import { fetchList, fetchUser, fetchError } from "../actions/actions";
 import { Button } from "@material-ui/core";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import ErrorIcon from "@material-ui/icons/Error";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import AddIcon from "@material-ui/icons/Add";
@@ -13,9 +15,16 @@ function Home(props) {
   const [isLoading2, setLoading2] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
+  const handleLogOut =()=>{
+    setLoading(true);
+    localStorage.removeItem("Token");
+    history.push('/login')
+    setLoading(false);
+  }
+  const notify = () => toast.error("There's nothing wrong");
   useEffect(() => {
-    dispatch(fetchList());
-  }, []);
+    dispatch(fetchList())
+  }, [])
   return (
     <div className="App">
       <Navbar className="homeLogout">
@@ -28,21 +37,27 @@ function Home(props) {
           }}
         >
           Add User
-          {isLoading2 &&
-        <ReactBootStrap.Spinner animation="border" />}
+          {isLoading2 && <ReactBootStrap.Spinner animation="border" />}
           <AddIcon />
         </Button>
         <h1>Home Page</h1>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleLogOut}>
           Log Out
         </Button>
       </Navbar>
-        <Table>
+      {props.data == "error" &&
+      <ToastContainer position="top-left"/>}
+      
+     
+      {isLoading ? (
+        <ReactBootStrap.Spinner animation="border" />
+      ) : (
+        <table>
           <thead>
             <tr>
               <th>Name</th>
               <th>Year</th>
-              <th>Actions</th>
+              <th className="action-head">Actions</th>
             </tr>
           </thead>
           {props.list.map((item) => (
@@ -57,23 +72,28 @@ function Home(props) {
                       variant="contained"
                       onClick={() => {
                         setLoading(true);
-                        dispatch(fetchUser(item.id));
-                        history.push(`/details/${item.id}`);
+                        dispatch(fetchUser(item.id, history));
                       }}
                     >
                       Details
-                      <ArrowForwardIosIcon />
-                      {isLoading && (
-                        <ReactBootStrap.Spinner animation="border" />
-                      )}
+                    </Button>
+                    <Button
+                      color="secondary"
+                      variant="contained"
+                      onClick={() => {
+                        dispatch(fetchError(23))
+                        notify()
+                      }}
+                    >
+                      <ErrorIcon />
                     </Button>
                   </td>
                 </tr>
               </tbody>
             </>
           ))}
-        </Table>
-      {/* )} */}
+        </table>
+      )}
     </div>
   );
 }
@@ -81,5 +101,8 @@ function Home(props) {
 const mapStateToProps = (state) => ({
   list: state.userListReducer.list,
   loading: state.userListReducer.loading,
+  data: state.errorReducer.data,
 });
-export default connect(mapStateToProps, { fetchUser, fetchList })(Home);
+export default connect(mapStateToProps, { fetchUser, fetchList, fetchError })(
+  Home
+);

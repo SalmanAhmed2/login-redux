@@ -11,12 +11,15 @@ export const ADD_USER_FAILED = "ADD_USER_FAILED";
 export const FETCH_USER_REQUEST = "FETCH_USER_REQUEST";
 export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
 export const FETCH_USER_FAILED = "FETCH_USER_FAILED";
-export const EDIT_USER_REQUEST = "EDIT_USER_REQUEST";
-export const EDIT_USER_SUCCESS = "EDIT_USER_SUCCESS";
-export const EDIT_USER_FAILED = "EDIT_USER_FAILED";
-export const DELETE_USER_REQUEST = "DELETE_USER_REQUEST";
-export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
-export const DELETE_USER_FAILED = "DELETE_USER_FAILED";
+const EDIT_USER_SUCCESS = "EDIT_USER_SUCCESS";
+const EDIT_USER_FAILED = "EDIT_USER_FAILED";
+const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
+const DELETE_USER_FAILED = "DELETE_USER_FAILED";
+export const ERROR_FETCH_REQUEST = "ERROR_FETCH_REQUEST";
+export const ERROR_FETCH_SUCCESS = "ERROR_FETCH_SUCCESS";
+export const ERROR_FETCH_FAILED = "ERROR_FETCH_FAILED"
+
+
 /////////......Users Response Actions.........../////////
 export const loginUsers = (data, history) => (dispatch) => {
   fetch("https://reqres.in/api/login", {
@@ -30,7 +33,8 @@ export const loginUsers = (data, history) => (dispatch) => {
   })
     .then((response) => response.json())
     .then((response) => {
-      response.token && history.push("/home");
+      localStorage.setItem("Token",response.token)
+      response.token && history.push("/");
       dispatch({
         payload: response,
         type: LOGIN_USER_SUCCESS,
@@ -62,8 +66,8 @@ export const fetchList = () => async (dispatch) => {
 
 ///////////.........AddUser Actions...............////////////////
 
-export const addUser = (data, history) => (dispatch) => {
-  axios
+export const addUser = (data, history) => async (dispatch) => {
+ await axios
     .post("https://reqres.in/api/users", {
       method: "post",
       headers: {
@@ -74,7 +78,7 @@ export const addUser = (data, history) => (dispatch) => {
       }),
     })
     .then((response) => {
-      response.data && history.push("/home")
+      response.data && history.push("/")
       dispatch({
         payload: response.data,
         type: ADD_USER_SUCCESS,
@@ -89,10 +93,11 @@ export const addUser = (data, history) => (dispatch) => {
 };
 /////////......User Details Actions.............../////////
 
-export const fetchUser = (id) => (dispatch) => {
-  fetch(`https://reqres.in/api/unknown/${id}`)
+export const fetchUser = (id,history) => async (dispatch) => {
+ await fetch(`https://reqres.in/api/unknown/${id}`)
       .then((response) => response.json())
       .then((response) => {
+        response.data && history.push(`/details/${id}`)
     dispatch({
       payload: response.data,
       type: FETCH_USER_SUCCESS,
@@ -105,11 +110,29 @@ export const fetchUser = (id) => (dispatch) => {
     });
   });
 };
+/////////......Error Actions.............../////////
 
+export const fetchError = (id) => async (dispatch) => {
+  await fetch(`https://reqres.in/api/unknown/${id}`)
+       .then((response) => response.json())
+       .then((response) => {
+     dispatch({
+       payload: "error",
+       type: ERROR_FETCH_SUCCESS,
+     });
+   })
+   .catch((err) => {
+     dispatch({
+       type: ERROR_FETCH_FAILED,
+       payload: err,
+     });
+   });
+ };
+ 
 // ///////////.........EDITUser Actions...............////////////////
 
-export const editUser = (values, id, history) => (dispatch) => {
-  axios
+export const editUser = (values, id, history) => async (dispatch) => {
+  await axios
     .post(`https://reqres.in/api/users/${id}`, {
       method: "update",
       headers: {
@@ -120,7 +143,7 @@ export const editUser = (values, id, history) => (dispatch) => {
       }),
     })
     .then((response) => {
-      response.data.id && history.push("/home");
+      response.data.id && history.push("/");
       dispatch({
         payload: response.data,
         type: EDIT_USER_SUCCESS,
@@ -135,13 +158,13 @@ export const editUser = (values, id, history) => (dispatch) => {
 };
 
 ///////////.........Delete User Actions...............////////////////
-export const deleteUser = (id, history) => (dispatch) => {
-  axios
+export const deleteUser = (id, history) => async (dispatch) => {
+ await axios
     .post(`https://reqres.in/api/users/${id}`, {
       method: "delete",
     })
     .then((response) => {
-      response.data.id && history.push("/home");
+      response.data.id && history.push("/");
       dispatch({
         payload: response.data,
         type: DELETE_USER_SUCCESS,

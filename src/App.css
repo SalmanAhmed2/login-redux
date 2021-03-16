@@ -4,6 +4,10 @@
   flex-direction:column;
   justify-content: center;
 }
+.MuiButton-containedSecondary {
+  color: #fff;
+  background-color: darkred!important;
+}
 .warning{
   color: red;
 }
@@ -14,7 +18,29 @@
   justify-content: space-between!important;
 }
 table{
-  width: 60%!important;
+  width: 50%!important;
+}
+.detailBTN {
+  width: 175px;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  font-size:large
+}
+td{
+  width: 30%;
+}
+tr th{
+  width: 50%;
+  font-size:large;
+}
+tr td{
+  margin: 10px;
+  font-size:large
+}
+.action-head{
+  position: relative;
+  left:65px;
 }
 .landing{
   display:flex;
@@ -22,7 +48,6 @@ table{
   align-items:center;
   justify-content:center;
 }
-
 h2 span{
   color: blue;
 }
