@@ -6,13 +6,13 @@ import { Formik } from "formik";
 import { Form } from "react-bootstrap";
 import * as ReactBootStrap from "react-bootstrap";
 import { connect } from "react-redux";
-import { loginUsers } from "../actions/actions";
-function LoginForm(props) {
+import { registerUser } from "../actions/actions";
+function Register(props) {
   const [isLoading, setLoading] = useState(props.loading);
   const history = useHistory();
   return (
     <div className="App">
-      <h1>Login Page</h1>
+      <h1>Registration Page</h1>
       <Formik
         initialValues={{ email: "", password: "" }}
         validate={(values) => {
@@ -28,7 +28,7 @@ function LoginForm(props) {
         }}
         onSubmit={(values) => {
           setLoading(true);
-          props.dispatch(loginUsers(values, history));
+          props.dispatch(registerUser(values, history));
         }}
       >
         {({ values, errors, touched, handleChange, handleSubmit }) => (
@@ -72,13 +72,13 @@ function LoginForm(props) {
           </Form>
         )}
       </Formik>
-      <Link to="/register">Don't have an account? Register now!</Link>
-      <p className="warning">{props.users.error}</p>
+      {/* <p className="warning">{props.users.error}</p> */}
+      <Link to="/login">Already have an account? Login now!</Link>
     </div>
   );
 }
 const mapStateToProps = (state) => ({
-  users: state.loginReducer.users,
-  loading: state.loginReducer.loading,
+  register_users: state.registerReducer.register_users,
+  loading: state.registerReducer.loading,
 });
-export default connect(mapStateToProps)(LoginForm);
+export default connect(mapStateToProps)(Register);

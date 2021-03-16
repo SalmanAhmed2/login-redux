@@ -23,7 +23,6 @@ const loginReducer = (state = initialState, action) => {
         error: "",
       };
     case LOGIN_USER_FAILED:
-      console.log(action.payload,"action error")
       return {
         users: [],
         loading: false,

@@ -17,25 +17,18 @@ function Details(props) {
 
       {isLoading ? (
         <ReactBootStrap.Spinner animation="border" />
-      ) : ( 
+      ) : (
         <>
           <h2>
-            Name:{""}
-            <span>{data.name}</span>
+            First Name: <span>{data.first_name}</span>
           </h2>
           <h2>
-            Year:{""}
-            <span>{data.year}</span>
+            Last Name: <span>{data.last_name}</span>
           </h2>
           <h2>
-            Colour:{""}
-            <span>{data.color}</span>
+            Email: <span>{data.email}</span>
           </h2>
-          <h2>
-            Pantone Value:{""}
-            <span>{data.pantone_value}</span>
-          </h2>
-          <div className="btns">
+          <div className="detail-btns">
             <Button
               color="primary"
               variant="contained"
@@ -51,7 +44,7 @@ function Details(props) {
               variant="contained"
               onClick={() => {
                 setLoading(true);
-                dispatch(deleteUser(data.id, history))
+                dispatch(deleteUser(data.id, history));
               }}
             >
               Delete <DeleteIcon />
@@ -67,4 +60,4 @@ const mapStateToProps = (state) => ({
   data: state.detailReducer.data,
   loading: state.detailReducer.loading,
 });
-export default connect(mapStateToProps, { deleteUser })(Details);
+export default connect(mapStateToProps, { deleteUser })(Details)

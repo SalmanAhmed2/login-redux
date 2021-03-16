@@ -16,11 +16,11 @@ function AddUser(props) {
       <Formik
         initialValues={{ name: "", job: "" }}
         onSubmit={(values) => {
-          setLoading(true)
-          if(values.name && values.job){
-            props.dispatch(addUser(values, history))
-          }else{
-            setErrr("Warning! Make sure that all the fields are filled")
+          setLoading(true);
+          if (values.name && values.job) {
+            props.dispatch(addUser(values, history));
+          } else {
+            setErrr("Warning! Make sure that all the fields are filled");
           }
         }}
       >

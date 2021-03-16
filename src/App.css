@@ -17,37 +17,43 @@
   align-items:center;
   justify-content: space-between!important;
 }
-table{
-  width: 50%!important;
-}
+
 .detailBTN {
-  width: 175px;
+  padding: 7px 0px;
+  width: 200px;
   display: flex;
   justify-content: space-between;
   margin: 10px;
   font-size:large
 }
-td{
-  width: 30%;
+.form{
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
 }
-tr th{
-  width: 50%;
-  font-size:large;
+.MuiFormControl-root {
+  width:50%
 }
-tr td{
-  margin: 10px;
-  font-size:large
+/* .ddahQf {
+  width: 60%!important;
+} */
+.sc-hKgILt{
+font-size:20px;
 }
-.action-head{
-  position: relative;
-  left:65px;
-}
-.landing{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+#column-email,#column-first_name,#column-last_name,#column-buttons,#column-undefined{
+  font-weight: 700;
+  font-size: 20px;
 }
 h2 span{
   color: blue;
+}
+.btns{
+  width:175px;
+  display:flex;
+  justify-content:space-between;
+}
+.detail-btns{
+  width:275px;
+  display:flex;
+  justify-content:space-between;
 }

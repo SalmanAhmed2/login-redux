@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import { connect } from "react-redux";
 import * as ReactBootStrap from "react-bootstrap";
@@ -8,7 +8,7 @@ import { Form } from "react-bootstrap";
 import SaveIcon from "@material-ui/icons/Save";
 import { editUser } from "../actions/actions";
 function Edit(props) {
-  const [isLoading, setLoading]=useState(false)
+  const [isLoading, setLoading] = useState(false);
   const [errr, setErrr] = useState("");
   const location = useLocation();
   const history = useHistory();
@@ -19,15 +19,15 @@ function Edit(props) {
       <h1>Edit Page</h1>
       <Formik
         initialValues={{
-          name: item.name,
-          pantone_value: item.pantone_value,
+          first_name: item.first_name,
+          last_name: item.last_name,
         }}
         onSubmit={(values) => {
-          setLoading(true)
-          if(values.name && values.pantone_value){
-            props.dispatch(editUser(values,id, history))
-          }else{
-            setErrr("Warning! Make sure that all the fields are filled")
+          setLoading(true);
+          if (values.first_name && values.last_name) {
+            props.dispatch(editUser(values, id, history));
+          } else {
+            setErrr("Warning! Make sure that all the fields are filled");
           }
         }}
       >
@@ -36,20 +36,20 @@ function Edit(props) {
             <Form.Group>
               <Form.Control
                 type="text"
-                name="name"
-                value={values.name}
+                name="first_name"
+                value={values.first_name}
                 onChange={handleChange}
-                placeholder="Name"
+                placeholder="First Name"
               />
             </Form.Group>
 
             <Form.Group>
               <Form.Control
-                value={values.pantone_value}
+                value={values.last_name}
                 type="text"
-                name="pantone_value"
+                name="last_name"
                 onChange={handleChange}
-                placeholder="Value"
+                placeholder="Last Name"
               />
             </Form.Group>
 
