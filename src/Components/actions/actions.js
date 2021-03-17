@@ -24,6 +24,7 @@ const DELETE_USER_FAILED = "DELETE_USER_FAILED";
 export const ERROR_FETCH_REQUEST = "ERROR_FETCH_REQUEST";
 export const ERROR_FETCH_SUCCESS = "ERROR_FETCH_SUCCESS";
 export const ERROR_FETCH_FAILED = "ERROR_FETCH_FAILED";
+export const USER_INPUT_DATA = "USER_INPUT_DATA"
 
 /////////......Register Users Response Actions.........../////////
 export const registerUser = (data, history) => (dispatch) => {
@@ -140,8 +141,18 @@ export const addUser = (data, history) => async (dispatch) => {
         payload: err,
       });
     });
-};
+  };
+  /////////...........USER DATA INPUT....................//////////
+
+export const userInput =(data, allData)=>({
+  type: USER_INPUT_DATA,
+  data,
+  allData
+})
+
 /////////......User Details Actions.............../////////
+
+
 
 export const fetchUser = (id, history) => async (dispatch) => {
   await fetch(`https://reqres.in/api/users/${id}`)

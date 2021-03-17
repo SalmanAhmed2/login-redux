@@ -6,6 +6,7 @@ import {
   fetchUser,
   fetchError,
   fetchNextList,
+  userInput,
 } from "../actions/actions";
 import { Button } from "@material-ui/core";
 import ErrorIcon from "@material-ui/icons/Error";
@@ -25,9 +26,8 @@ function Home(props) {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const [isLoading2, setLoading2] = useState(false);
-  const [page, setPage] = useState(1);
-  const [filtered, setFiltered] = useState({});
-  const [inputval, setInputVal] = useState(null);
+  const [inputVal, setInputVal] = useState(null);
+  const page = 1;
   const perPage = props.list.per_page;
   const handleLogOut = () => {
     setLoading(true);
@@ -39,19 +39,11 @@ function Home(props) {
   useEffect(() => {
     dispatch(fetchList(page));
   }, []);
+
   const handleSearch = (e) => {
     const inputvals = e.target.value;
     setInputVal(e.target.value);
-    const filterData = props.list.data.filter((data) => {
-      if (inputvals === "") return data;
-      else if (
-        data.first_name.toLowerCase().includes(inputvals.toLowerCase()) ||
-        data.last_name.toLowerCase().includes(inputvals.toLowerCase()) ||
-        data.email.toLowerCase().includes(inputvals.toLowerCase())
-      )
-        return data;
-    });
-    setFiltered(filterData);
+    dispatch(userInput(inputvals, props.list.data));
   };
   const columns = [
     {
@@ -128,33 +120,11 @@ function Home(props) {
       ) : (
         <DataTable
           columns={columns}
-          data={inputval === null ? props.list.data : filtered}
+          data={inputVal == null ? props.list.data : props.inputdata}
           defaultSortField="First Name"
           sortIcon={<SortIcon />}
           selectableRowsComponentProps={selectableRowsComponentProps}
         />
-        // <table>
-        //   <thead>
-        //     <tr className="table-head">
-        //       <th>First Name</th>
-        //       <th>Last Name</th>
-        //       <th className="email-head">Email</th>
-        //       <th className="action-head">Actions</th>
-        //     </tr>
-        //   </thead>
-        //   {props.list.map((item, id) => (
-        //     <>
-        //       <tbody>
-        //         <tr key={item.id}>
-        //           <td>{item.first_name}</td>
-        //           <td>{item.last_name}</td>
-        //           <td>{item.email}</td>
-
-        //         </tr>
-        //       </tbody>
-        //     </>
-        //   ))}
-        // </table>
       )}
       <Pagination
         count={2}
@@ -173,6 +143,7 @@ const mapStateToProps = (state) => ({
   list: state.userListReducer.list,
   loading: state.userListReducer.loading,
   data: state.errorReducer.data,
+  inputdata: state.inputReducer.inputdata,
 });
 export default connect(mapStateToProps, {
   fetchUser,
